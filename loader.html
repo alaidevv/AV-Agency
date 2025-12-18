@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AV Agency · Procesando</title>
+
+<style>
+body{
+    margin:0;
+    background:#000;
+    color:#3b82f6;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+}
+.loader{text-align:center;animation:pulse 1.5s infinite}
+@keyframes pulse{
+    0%,100%{opacity:.3}
+    50%{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="loader">
+    <h1>Procesando tu solicitud</h1>
+    <p>AV Agency</p>
+</div>
+
+<script>
+/* ================= LEER DATOS ================= */
+const formData = JSON.parse(localStorage.getItem("av_form_data"));
+
+console.log("FORM DATA RECIBIDO:", formData);
+
+/* ================= ENVIAR A AIRTABLE (WEBHOOK) ================= */
+async function sendToAirtable() {
+
+    if (!formData) {
+        console.error("No hay datos para enviar");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            "https://hooks.airtable.com/workflows/v1/genericWebhook/app4T3FGCAz8H42V4/wflnnmGDPInatCWUs/wtryZBhOALSmYBhoI",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            }
+        );
+
+        const text = await response.text();
+        console.log("STATUS:", response.status);
+        console.log("RESPUESTA AIRTABLE:", text);
+
+        if (!response.ok) {
+            throw new Error("Error al enviar a Airtable");
+        }
+
+        localStorage.removeItem("av_form_data");
+
+    } catch (error) {
+        console.error("Error al enviar a Airtable:", error);
+    }
+}
+
+/* ================= EJECUTAR ================= */
+sendToAirtable();
+
+/* ================= REDIRECCIÓN ================= */
+setTimeout(() => {
+    window.location.href = "formulario-completado.html";
+}, 2500);
+</script>
+
+
+</body>
+</html>
