@@ -164,22 +164,22 @@ button:active{
 
 <script>
 const PASSWORD = "AV2025";
+const FORM_URL = "https://avagency.es/formulario";
 
 function checkPassword(){
     const input = document.getElementById("password").value;
     const error = document.getElementById("error");
 
     if (input === PASSWORD) {
-        window.location.href = "formulario.html";
+        window.location.href = FORM_URL;
     } else {
         error.style.display = "block";
     }
 }
 
-/* ===== ENTER PARA ACCEDER ===== */
+// ENTER para acceder
 document.getElementById("password").addEventListener("keydown", e => {
     if (e.key === "Enter") {
-        e.preventDefault();
         checkPassword();
     }
 });
