@@ -41,9 +41,87 @@
     footer{margin-top:36px;color:var(--muted);font-size:13px}
     .btn-back{display:inline-block;margin-top:8px;padding:8px 12px;border-radius:6px;background:rgba(59,130,246,0.08);color:var(--accent);border:1px solid rgba(59,130,246,0.12)}
     @media (max-width:600px){.wrap{margin:20px;padding:18px}}
+            /* === CURSOR PERSONALIZADO (versión mejorada) === */
+        html, body {
+            cursor: none;
+        }
+
+        button, a, input, textarea, select {
+            cursor: auto;
+        }
+
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease, opacity 0.2s ease, left 0.05s linear, top 0.05s linear;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .cursor.active {
+            opacity: 1;
+        }
+
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        input:focus, textarea:focus {
+            cursor: text;
+        }
+
+        /* No mostrar el cursor personalizado en móviles */
+        @media (hover: none), (max-width: 768px) {
+            .cursor { display: none; }
+            html, body { cursor: auto; }
+        }
   </style>
 </head>
 <body>
+  <div class="cursor"></div>
+          // Cursor personalizado
+        const cursor = document.querySelector('.cursor');
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursor.classList.add('active');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            cursor.classList.remove('active');
+        });
+
+        function animateCursor() {
+            const dx = mouseX - cursorX;
+            const dy = mouseY - cursorY;
+            
+            cursorX += dx * 0.1;
+            cursorY += dy * 0.1;
+            
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        // Hover effects
+        const hoverElements = document.querySelectorAll('button, input, .highlight');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
   <div class="wrap">
     <header>
       <h1>Política de Privacidad</h1>
