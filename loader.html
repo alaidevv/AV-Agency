@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AV Agency · Procesando</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    background:#000;
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+}
+
+/* Logo */
+.logo{
+    font-size:56px;
+    font-weight:900;
+    margin-bottom:48px;
+    animation:fadeIn .6s ease both;
+}
+.logo span{color:#3b82f6}
+
+/* Spinner */
+.spinner{
+    width:48px;
+    height:48px;
+    border:2px solid #1a1a1a;
+    border-top-color:#3b82f6;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin:0 auto 32px;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+/* Text */
+.label{
+    font-size:16px;
+    color:#555;
+    letter-spacing:.08em;
+    animation:pulse 2s ease infinite;
+}
+
+@keyframes pulse{
+    0%,100%{opacity:.4}
+    50%{opacity:1}
+}
+
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(-10px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* Progress dots */
+.dots{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    margin-top:24px;
+}
+.dot{
+    width:6px;height:6px;
+    background:#3b82f6;
+    border-radius:50%;
+    opacity:.2;
+    animation:blink 1.2s ease infinite;
+}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+
+@keyframes blink{
+    0%,100%{opacity:.2}
+    50%{opacity:1}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="logo"><span>A</span>V</div>
+    <div class="spinner"></div>
+    <div class="label">Procesando tu solicitud</div>
+    <div class="dots">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    </div>
+</div>
+
+<script>
+const formData = JSON.parse(sessionStorage.getItem('av_form_data') || '{}');
+
+async function enviar() {
+    try {
+        await fetch('https://formspree.io/f/xqedlynl', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+    } catch(e) {
+        console.error('Error al enviar:', e);
+    } finally {
+        window.location.href = 'formulario-completado.html';
+    }
+}
+
+enviar();
+</script>
+
+</body>
+</html>

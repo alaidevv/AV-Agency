@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AV Agency · Formulario Infoproducto</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:#000;
+    color:#fff;
+    overflow:hidden;
+}
+html,body{cursor:none}
+
+/* CURSOR */
+.cursor{
+    width:18px;height:18px;
+    border:2px solid #3b82f6;
+    border-radius:50%;
+    position:fixed;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+    transition:transform .1s ease;
+}
+
+/* HEADER */
+.header{
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    padding:30px;
+    text-align:center;
+    z-index:10;
+    background:linear-gradient(to bottom, #000 70%, transparent);
+}
+.logo{font-size:48px;font-weight:900}
+.logo span{color:#3b82f6}
+.slogan{
+    font-size:14px;
+    letter-spacing:0.25em;
+    color:#777;
+}
+
+/* WRAPPER */
+.wrapper{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-top:140px;
+    padding-bottom:60px;
+    padding-left:24px;
+    padding-right:24px;
+}
+.step{
+    display:none;
+    width:100%;
+    max-width:700px;
+    animation:fade .4s ease;
+}
+.step.active{display:block}
+
+@keyframes fade{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.question{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:30px;
+    line-height:1.25;
+}
+
+.hint{
+    font-size:14px;
+    color:#555;
+    margin-top:-20px;
+    margin-bottom:24px;
+}
+
+/* INPUTS */
+input,textarea,select{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:2px solid #333;
+    color:#fff;
+    font-size:18px;
+    padding:15px 10px;
+    outline:none;
+    font-family:inherit;
+}
+input:focus,textarea:focus,select:focus{border-color:#3b82f6}
+textarea{min-height:140px;resize:none;line-height:1.5}
+
+select option{
+    background:#111;
+    color:#fff;
+}
+
+
+
+/* OPTIONS — single select */
+.options{display:flex;flex-direction:column;gap:12px}
+.option{
+    padding:16px 20px;
+    border:2px solid #222;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:16px;
+    transition:border-color .2s, background .2s;
+    user-select:none;
+}
+.option:hover{border-color:#3b82f6;background:rgba(59,130,246,.05)}
+.option.selected{
+    border-color:#3b82f6;
+    background:rgba(59,130,246,.1);
+}
+
+/* OPTIONS — multi select */
+.options-multi{display:flex;flex-direction:column;gap:12px}
+.option-multi{
+    padding:16px 20px;
+    border:2px solid #222;
+    border-radius:4px;
+    cursor:pointer;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    transition:border-color .2s, background .2s;
+    user-select:none;
+}
+.option-multi:hover{border-color:#3b82f6;background:rgba(59,130,246,.05)}
+.option-multi.selected{
+    border-color:#3b82f6;
+    background:rgba(59,130,246,.1);
+}
+.option-multi .check{
+    width:18px;height:18px;
+    border:2px solid #444;
+    border-radius:4px;
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+    transition:border-color .2s, background .2s;
+}
+.option-multi.selected .check{
+    border-color:#3b82f6;
+    background:#3b82f6;
+}
+
+/* NEXT */
+.next{
+    margin-top:36px;
+    padding:18px;
+    width:100%;
+    background:#3b82f6;
+    border:none;
+    border-radius:4px;
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.1em;
+    cursor:pointer;
+    display:none;
+    transition:opacity .2s, transform .15s;
+}
+.next:hover{opacity:.9;transform:translateY(-1px)}
+.next.show{display:block}
+
+/* PROGRESS */
+.progress{
+    position:fixed;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:13px;
+    color:#444;
+    letter-spacing:.05em;
+}
+
+/* PROGRESS BAR */
+.progress-bar-wrap{
+    position:fixed;
+    bottom:0;left:0;
+    width:100%;
+    height:3px;
+    background:#111;
+    z-index:20;
+}
+.progress-bar{
+    height:100%;
+    background:#3b82f6;
+    transition:width .4s ease;
+}
+</style>
+</head>
+
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<div class="header">
+    <div class="logo"><span>A</span>V</div>
+    <div class="slogan">APRENDE · CRECE · AVANZA</div>
+</div>
+
+<div class="wrapper">
+
+<!-- 1 · Nombre -->
+<div class="step active" data-key="Nombre">
+    <div class="question">¿Cuál es tu nombre?</div>
+    <input type="text" required placeholder="Tu nombre">
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 2 · Apellidos -->
+<div class="step" data-key="Apellidos">
+    <div class="question">¿Y tus apellidos?</div>
+    <input type="text" required placeholder="Tus apellidos">
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 3 · Email -->
+<div class="step" data-key="Email">
+    <div class="question">Correo electrónico</div>
+    <input type="email" required placeholder="tu@email.com">
+    <button class="next">SIGUIENTE</button>
+</div>
+
+
+<!-- 5 · Sector -->
+<div class="step" data-key="Sector">
+    <div class="question">¿A qué te dedicas?</div>
+    <div class="options">
+        <div class="option">Emprendedor / Negocio propio</div>
+        <div class="option">Coach / Consultor</div>
+        <div class="option">Creador de contenido</div>
+        <div class="option">Formador / Profesor</div>
+        <div class="option">Profesional independiente (freelance)</div>
+        <div class="option">Empresa / Agencia</div>
+        <div class="option">Otro</div>
+    </div>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 6 · Tipo de infoproducto -->
+<div class="step" data-key="Tipo de infoproducto">
+    <div class="question">¿Qué tipo de infoproducto quieres?</div>
+    <div class="options">
+        <div class="option">E-book / Guía PDF</div>
+        <div class="option">Plantilla / Recursos descargables</div>
+        <div class="option">Curso online</div>
+        <div class="option">Otro</div>
+    </div>
+    <textarea placeholder="Especifica qué tienes en mente..." style="display:none;margin-top:20px"></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 7 · Tema -->
+<div class="step" data-key="Tema del infoproducto">
+    <div class="question">¿Sobre qué tema quieres tu infoproducto?</div>
+    <div class="hint">Cuanto más concreto, mejor resultado obtendrás.</div>
+    <textarea required placeholder="Ej: Cómo crear una estrategia de contenido en Instagram para negocios locales..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 8 · Público objetivo -->
+<div class="step" data-key="Público objetivo">
+    <div class="question">Describe a tu público objetivo</div>
+    <div class="hint">¿Quién va a consumir este infoproducto? Edad, intereses, nivel de conocimiento...</div>
+    <textarea required placeholder="Ej: Emprendedores de entre 25 y 40 años que quieren aprender a vender online sin experiencia previa..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 9 · Problema que resuelve -->
+<div class="step" data-key="Problema que resuelve">
+    <div class="question">¿Qué problema concreto resuelve?</div>
+    <div class="hint">¿Qué resultado obtendrá el cliente al terminar de consumirlo?</div>
+    <textarea required placeholder="Ej: El cliente aprenderá a crear y vender su primer producto digital en 30 días sin necesidad de conocimientos técnicos..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 10 · Plazo -->
+<div class="step" data-key="Plazo deseado">
+    <div class="question">¿En cuánto tiempo quieres tenerlo listo?</div>
+    <div class="options">
+        <div class="option">Lo antes posible (menos de 7 días)</div>
+        <div class="option">En 2–4 semanas</div>
+        <div class="option">En 1–2 meses</div>
+        <div class="option">Sin prisa, quiero calidad máxima</div>
+    </div>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 11 · Estructura -->
+<div class="step" data-key="Estructura">
+    <div class="question">¿Tienes ya una estructura o índice?</div>
+    <div class="options">
+        <div class="option">Sí, tengo una estructura clara</div>
+        <div class="option">Tengo ideas pero nada definido</div>
+        <div class="option">Prefiero que la creéis vosotros</div>
+    </div>
+    <textarea placeholder="Explícanos tu estructura o ideas..." style="display:none;margin-top:20px"></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 12 · Temas imprescindibles -->
+<div class="step" data-key="Temas imprescindibles">
+    <div class="question">Temas que sí o sí deben aparecer</div>
+    <div class="hint">Lista los apartados, capítulos o conceptos que no pueden faltar.</div>
+    <textarea required placeholder="Ej: Capítulo sobre herramientas gratuitas, sección de ejemplos reales, checklist final..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 13 · Qué NO quieres -->
+<div class="step" data-key="Qué NO incluir">
+    <div class="question">¿Qué NO quieres que aparezca?</div>
+    <div class="hint">Opcional, pero nos ayuda a afinar mucho el resultado.</div>
+    <textarea placeholder="Ej: Nada de lenguaje muy técnico, sin referencias a herramientas de pago, evitar comparaciones con competidores..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 14 · Estilo visual -->
+<div class="step" data-key="Estilo visual">
+    <div class="question">Estilo visual deseado</div>
+    <div class="hint">Describe colores, referencias, mood o compártenos ejemplos que te gusten.</div>
+    <textarea placeholder="Ej: Minimalista, colores oscuros y azul, estilo Apple. O: colorido, cercano, estilo TikTok..."></textarea>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 15 · Tono -->
+<div class="step" data-key="Tono de comunicación">
+    <div class="question">¿Qué tono de comunicación prefieres?</div>
+    <div class="options">
+        <div class="option">Profesional y formal</div>
+        <div class="option">Cercano y motivador</div>
+        <div class="option">Educativo y didáctico</div>
+        <div class="option">Dinámico y directo</div>
+    </div>
+    <button class="next">SIGUIENTE</button>
+</div>
+
+<!-- 16 · Extras (multi-select) -->
+<div class="step" data-key="Extras opcionales" data-multi="true">
+    <div class="question">¿Qué extras quieres incluir?</div>
+    <div class="hint">Puedes elegir varios.</div>
+    <div class="options-multi">
+        <div class="option-multi"><div class="check">✓</div>Frases motivadoras</div>
+        <div class="option-multi"><div class="check">✓</div>Consejos prácticos</div>
+        <div class="option-multi"><div class="check">✓</div>Recursos descargables adicionales</div>
+        <div class="option-multi"><div class="check">✓</div>Plantillas listas para usar</div>
+        <div class="option-multi"><div class="check">✓</div>Ejercicios y actividades</div>
+        <div class="option-multi"><div class="check">✓</div>Casos de éxito / ejemplos reales</div>
+        <div class="option-multi"><div class="check">✓</div>Ninguno / que sea lo más limpio posible</div>
+    </div>
+    <button class="next show">FINALIZAR Y ENVIAR</button>
+</div>
+
+</div>
+
+<div class="progress">Paso <span id="pCurrent">1</span> de <span id="pTotal"></span></div>
+
+<div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<script>
+/* ===== DATOS ===== */
+const formData = {};
+
+/* ===== CURSOR ===== */
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+});
+
+/* ===== STEPS ===== */
+const steps = [...document.querySelectorAll('.step')];
+const total  = steps.length;
+document.getElementById('pTotal').textContent = total;
+
+let i = 0;
+
+function updateUI() {
+    steps.forEach(s => s.classList.remove('active'));
+    steps[i].classList.add('active');
+    document.getElementById('pCurrent').textContent = i + 1;
+    document.getElementById('progressBar').style.width = ((i + 1) / total * 100) + '%';
+}
+
+steps.forEach((step, idx) => {
+    const next        = step.querySelector('.next');
+    const options     = step.querySelectorAll('.option');
+    const optionsMulti= step.querySelectorAll('.option-multi');
+    const extra       = step.querySelector('textarea');
+    const inputs      = step.querySelectorAll('input, textarea');
+    const isMulti     = step.dataset.multi === 'true';
+
+    function check() {
+        if (isMulti) {
+            // multi: siempre válido (puede no elegir nada)
+            next.classList.add('show');
+            return;
+        }
+        let valid = true;
+        inputs.forEach(inp => {
+            if (inp.required && !inp.value.trim()) valid = false;
+        });
+        // Si hay opciones de single-select, al menos una debe estar seleccionada
+        if (options.length > 0 && !step.querySelector('.option.selected')) {
+            valid = false;
+        }
+        // Si hay un textarea extra visible y obligatorio
+        if (extra && extra.style.display === 'block' && !extra.value.trim()) {
+            valid = false;
+        }
+        next.classList.toggle('show', valid);
+    }
+
+    // Inputs de texto
+    inputs.forEach(inp => {
+        inp.addEventListener('input', check);
+        inp.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !e.shiftKey && next.classList.contains('show')) {
+                if (inp.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    next.click();
+                }
+            }
+        });
+    });
+
+    // Single-select options
+    options.forEach(o => {
+        o.addEventListener('click', () => {
+            options.forEach(x => x.classList.remove('selected'));
+            o.classList.add('selected');
+
+            // Mostrar textarea extra si "Otro" o si tiene estructura
+            if (extra) {
+                const showExtra = o.textContent.trim().startsWith('Otro')
+                    || o.textContent.includes('Sí, tengo')
+                    || o.textContent.includes('ideas pero');
+                extra.style.display = showExtra ? 'block' : 'none';
+                if (!showExtra) extra.value = '';
+            }
+            check();
+        });
+    });
+
+    // Multi-select options
+    optionsMulti.forEach(o => {
+        o.addEventListener('click', () => {
+            o.classList.toggle('selected');
+            check();
+        });
+    });
+
+    if (extra) extra.addEventListener('input', check);
+
+    // Click NEXT / FINALIZAR
+    next.addEventListener('click', () => {
+        const key = step.dataset.key || `Paso ${idx + 1}`;
+
+        // Recoger valor
+        let value = '';
+
+        if (isMulti) {
+            const selected = [...step.querySelectorAll('.option-multi.selected')]
+                .map(o => o.textContent.trim().replace('✓', '').trim());
+            value = selected.length > 0 ? selected.join(', ') : 'Ninguno';
+
+        } else {
+            const selOpt = step.querySelector('.option.selected');
+            const input  = step.querySelector('input[type="text"], input[type="email"]');
+
+            if (selOpt) {
+                value = selOpt.textContent.trim();
+                if (extra && extra.style.display === 'block' && extra.value.trim()) {
+                    value += ` — ${extra.value.trim()}`;
+                }
+            } else if (input) {
+                value = input.value.trim();
+            } else if (extra) {
+                value = extra.value.trim();
+            }
+        }
+
+        formData[key] = value;
+
+        // Avanzar o finalizar
+        if (i < steps.length - 1) {
+            i++;
+            updateUI();
+        } else {
+            // Guardar y pasar al loader
+            sessionStorage.setItem('av_form_data', JSON.stringify(formData));
+            window.location.href = 'loader.html';
+        }
+    });
+});
+
+// Init
+updateUI();
+</script>
+
+</body>
+</html>

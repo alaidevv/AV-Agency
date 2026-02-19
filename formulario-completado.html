@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AV Agency · Formulario completado</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{
+    width:100%;
+    height:100%;
+    background:#000;
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    cursor:none;
+}
+
+/* CURSOR */
+.cursor{
+    width:18px;height:18px;
+    border:2px solid #3b82f6;
+    border-radius:50%;
+    position:fixed;
+    pointer-events:none;
+    transform:translate(-50%,-50%);
+    z-index:9999;
+}
+
+/* CENTER */
+.wrapper{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:left;
+    padding:40px;
+}
+
+.content{
+    max-width:700px;
+    animation:fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(20px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.logo{
+    font-size:72px;
+    font-weight:900;
+    margin-bottom:24px;
+    line-height:1;
+}
+.logo span{color:#3b82f6}
+
+/* Línea decorativa */
+.line{
+    width:48px;
+    height:2px;
+    background:#3b82f6;
+    margin-bottom:32px;
+}
+
+h1{
+    font-size:38px;
+    font-weight:700;
+    margin-bottom:32px;
+    line-height:1.1;
+}
+
+p{
+    font-size:18px;
+    line-height:1.75;
+    color:#aaa;
+    margin-bottom:20px;
+}
+
+.highlight{
+    color:#3b82f6;
+    font-weight:600;
+}
+
+/* Badge */
+.badge{
+    display:inline-block;
+    margin-top:8px;
+    padding:10px 20px;
+    border:1px solid #1f2937;
+    border-radius:4px;
+    font-size:14px;
+    color:#555;
+    letter-spacing:.05em;
+}
+
+.footer{
+    margin-top:48px;
+    font-size:13px;
+    color:#333;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+</style>
+</head>
+
+<body>
+
+<div class="cursor"></div>
+
+<div class="wrapper">
+    <div class="content">
+        <div class="logo"><span>A</span>V</div>
+        <div class="line"></div>
+
+        <h1>Formulario completado.</h1>
+
+        <p>
+            Has terminado el proceso correctamente.
+        </p>
+
+        <p>
+            Hemos recibido toda la información necesaria para analizar tu idea y
+            crear la mejor versión posible de tu <span class="highlight">infoproducto</span>.
+        </p>
+
+        <p>
+            Nuestro equipo revisará tu caso y se pondrá en contacto contigo
+            en las próximas <span class="highlight">24–48 horas</span>.
+        </p>
+
+        <p>
+            Mientras tanto, mantente atento a tu correo electrónico.
+        </p>
+
+        <div class="badge">✦ Plaza gratuita reservada</div>
+
+        <div class="footer">
+            AV Agency · Aprende · Crece · Avanza
+        </div>
+    </div>
+</div>
+
+<script>
+const cursor = document.querySelector('.cursor');
+document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+});
+
+// Limpiar datos de sesión al llegar aquí
+sessionStorage.removeItem('av_form_data');
+</script>
+
+</body>
+</html>
